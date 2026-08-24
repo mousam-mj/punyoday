@@ -244,12 +244,60 @@ class SanskarShivirSeeder extends Seeder
         ]);
 
         $organizerItems = [
-            ['name' => 'आयोजक – श्री दिगंबर जैन धर्मप्रभावना समिति 2026, इंदौर', 'designation' => 'आयोजक – श्री दिगंबर जैन धर्मप्रभावना समिति 2026, इंदौर', 'sort_order' => 1],
-            ['name' => 'विनीत – सकल दिगंबर जैन समाज, इंदौर', 'designation' => 'विनीत – सकल दिगंबर जैन समाज, इंदौर', 'sort_order' => 2],
+            ['name' => 'विनीत - सकल दिगंबर जैन समाज, इंदौर', 'designation' => 'विनीत - सकल दिगंबर जैन समाज, इंदौर', 'sort_order' => 1],
+            ['name' => 'आयोजक - श्री दिगंबर जैन धर्मप्रभावना समिति 2026, इंदौर', 'designation' => 'आयोजक - श्री दिगंबर जैन धर्मप्रभावना समिति 2026, इंदौर', 'sort_order' => 2],
+            ['name' => 'श्राविका श्रेष्ठी आशारानी महेंद्र पांड्या', 'designation' => 'निर्देशिका', 'sort_order' => 3],
+            ['name' => 'रमेश - प्रभा जैन (निर्वाणा), आनन्द - अंतिका गोधा', 'designation' => 'मार्गदर्शक', 'sort_order' => 4],
+            ['name' => 'मनीष - सपना गोधा (सुमतिधाम)', 'designation' => 'गौरव अध्यक्ष', 'sort_order' => 5],
+            ['name' => 'नवीन - शिवानी गोधा (प्रगति ग्रुप)', 'designation' => 'अध्यक्ष', 'sort_order' => 6],
+            ['name' => 'अशोक - रानी डोशी', 'designation' => 'महोत्सव अध्यक्ष', 'sort_order' => 7],
+            ['name' => 'धर्मेंद्र - संध्या जैन (सिनकेम)', 'designation' => 'कार्याध्यक्ष', 'sort_order' => 8],
+            ['name' => 'गौतम - गिरीश जैन (गिन्नी ग्रुप)', 'designation' => 'स्वागत अध्यक्ष', 'sort_order' => 9],
+            ['name' => 'रमेश - संजय सामरिया', 'designation' => 'स्वागत अध्यक्ष', 'sort_order' => 10],
+            ['name' => 'आकाश - दीपिका जैन (कोयला)', 'designation' => 'कोषाध्यक्ष', 'sort_order' => 11],
+            ['name' => 'सौरभ सलिल बड़जात्या - शचि बड़जात्या', 'designation' => 'सह-कोषाध्यक्ष', 'sort_order' => 12],
+            ['name' => 'हर्ष - तृप्ति जैन (शास्वत ग्रुप)', 'designation' => 'महामंत्री', 'sort_order' => 13],
+            ['name' => 'अक्षय - लीना कासलीवाल', 'designation' => 'मंत्री', 'sort_order' => 14],
         ];
 
         foreach ($organizerItems as $item) {
             ShivirSectionItem::create(array_merge(['shivir_section_id' => $secOrganizers->id], $item));
+        }
+
+        $secContacts = ShivirSection::create([
+            'shivir_id' => $shivir2026->id,
+            'title' => 'इंदौर शिविर संपर्क',
+            'subtitle' => 'इंदौर शिविर हेल्पलाइन नंबर',
+            'description' => '',
+            'background' => 'bg-maroon-900',
+            'sort_order' => 5,
+            'is_active' => true,
+        ]);
+
+        $contactItems = [
+            ['name' => 'इंदौर शिविर हेल्पलाइन नंबर', 'designation' => 'हेल्पलाइन', 'mobile' => '9039396868 | 9039397373', 'sort_order' => 1],
+            ['name' => 'आवास व्यवस्था', 'designation' => 'आवास व्यवस्था', 'mobile' => '9232865660 | 9827329727', 'sort_order' => 2],
+            ['name' => 'आकाश जैन (कोयला) कोषाध्यक्ष', 'designation' => 'भक्ति कलश बुकिंग व दान हेतु', 'mobile' => '7999621019', 'sort_order' => 3],
+            ['name' => 'सौरभ सलिल बड़जात्या सहकोषाध्यक्ष', 'designation' => 'भक्ति कलश बुकिंग व दान हेतु', 'mobile' => '8962947359', 'sort_order' => 4],
+            ['name' => 'अखिलेश सोधिया', 'designation' => 'शांतिधारा', 'mobile' => '9425837738', 'sort_order' => 5],
+            ['name' => 'राजेश जैन दद्दू', 'designation' => 'शांतिधारा', 'mobile' => '9425321169', 'sort_order' => 6],
+            ['name' => 'अजय जैन रेनबो', 'designation' => 'शांतिधारा', 'mobile' => '8989759495', 'sort_order' => 7],
+            ['name' => 'कमल जैन चैलेंजर', 'designation' => 'कलश वितरण', 'mobile' => '9425081487', 'sort_order' => 8],
+            ['name' => 'श्रुत जैन', 'designation' => 'कलश वितरण', 'mobile' => '9926039082', 'sort_order' => 9],
+            ['name' => 'वीरेन्द्र जैन देवरी', 'designation' => 'कलश वितरण', 'mobile' => '8889519819', 'sort_order' => 10],
+            ['name' => 'महेंद्र जैन चुकरु', 'designation' => 'आहार व्यवस्था', 'mobile' => '8871364100', 'sort_order' => 11],
+            ['name' => 'राहुल जैन बीना', 'designation' => 'आहार व्यवस्था', 'mobile' => '7898393333', 'sort_order' => 12],
+            ['name' => 'अक्षत जैन', 'designation' => 'आहार व्यवस्था', 'mobile' => '6267360985', 'sort_order' => 13],
+            ['name' => 'मुकुल जैन', 'designation' => 'त्यागीव्रती भोजनशाला', 'mobile' => '7691953533', 'sort_order' => 14],
+            ['name' => 'संदीप जैन बोबी', 'designation' => 'त्यागीव्रती भोजनशाला', 'mobile' => '9425315430', 'sort_order' => 15],
+            ['name' => 'मनीष मोनू रानीपुर', 'designation' => 'त्यागीव्रती भोजनशाला', 'mobile' => '9009722265', 'sort_order' => 16],
+            ['name' => 'अभिषेक जैन बेगमगंज', 'designation' => 'चौका व्यवस्था', 'mobile' => '9893735853', 'sort_order' => 17],
+            ['name' => 'श्रीमती सोनाली बागड़िया', 'designation' => 'चौका व्यवस्था', 'mobile' => '9301930460', 'sort_order' => 18],
+            ['name' => 'आलोक जैन मउरानीपुर', 'designation' => 'चौका व्यवस्था', 'mobile' => '9926269655', 'sort_order' => 19],
+        ];
+
+        foreach ($contactItems as $item) {
+            ShivirSectionItem::create(array_merge(['shivir_section_id' => $secContacts->id], $item));
         }
 
         // 4. Create Official Shivir Rules & Terms (23 Exact Points)

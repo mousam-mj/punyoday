@@ -26,7 +26,12 @@ class RegistrationController extends Controller
                 ->with('error', 'इस शिविर के लिए पंजीयन अभी बंद है अथवा अधिकतम सीमा पूर्ण हो चुकी है।');
         }
 
-        $shivir->load('rules');
+        $shivir->load([
+            'rules',
+            'sections' => function ($q) {
+                $q->where('is_active', true)->with('activeItems');
+            },
+        ]);
 
         return view('public.register', compact('shivir'));
     }

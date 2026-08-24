@@ -27,13 +27,14 @@
                 </div>
             </div>
 
-            <!-- QR Code Display -->
+            {{-- QR Code Display
             <div class="flex flex-col items-center justify-center p-4 bg-slate-50 rounded-2xl border border-slate-200 max-w-sm mx-auto shadow-inner">
                 <div class="mb-2 text-xs font-bold text-slate-600">सुरक्षित डिजिटल क्यूआर कोड (QR Code)</div>
                 <div class="p-3 bg-white border border-slate-300 rounded-xl shadow-sm">
                     <img src="{{ $qrDataUri }}" alt="QR Code" class="w-44 h-44">
                 </div>
             </div>
+            --}}
 
             <!-- Participant Information Summary -->
             <div class="bg-slate-50 rounded-2xl p-6 text-left border border-slate-200 grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">

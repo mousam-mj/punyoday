@@ -1,12 +1,29 @@
-<div class="max-w-6xl mx-auto px-2 sm:px-4 lg:px-6 py-6" x-data="registrationForm()">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6" x-data="registrationForm()">
 
     <!-- Form Container with Soft Yellow Background -->
     <div class="bg-[#fffbeb] rounded-3xl shadow-xl border-2 border-amber-300 overflow-hidden">
         
         <!-- Form Header -->
-        <div class="gradient-header text-white p-6 sm:p-8 text-center border-b-4 border-amber-500 space-y-3">
-            <h2 class="font-tiro text-3xl sm:text-4xl font-bold text-amber-200">ऑनलाइन संस्कार शिविर पंजीयन फॉर्म</h2>
-            <p class="text-amber-100 text-sm sm:text-base font-medium">{{ $shivir->name }}</p>
+        <div class="gradient-header text-white p-4 sm:p-8 text-center border-b-4 border-amber-500 space-y-3">
+            <h2 class="font-tiro text-xl sm:text-4xl font-bold text-white leading-snug">श्रावक संस्कार शिविर - ऑनलाइन पंजीयन फॉर्म</h2>
+            <!-- <p class="text-amber-100 text-sm sm:text-base font-medium">{{ $shivir->name }}</p> -->
+
+            @php
+                $helplineItem = optional($shivir->sections->first(function ($sec) {
+                    return str_contains($sec->title, 'संपर्क') || str_contains($sec->title, 'हेल्पलाइन');
+                }))->activeItems?->first(fn ($i) => $i->designation === 'हेल्पलाइन');
+            @endphp
+            @if($helplineItem)
+                @php
+                    $helplinePhones = preg_split('/\s*\|\s*/', (string) $helplineItem->mobile);
+                    $helplineNumbers = collect($helplinePhones)
+                        ->map(fn ($phone) => '<span class="font-mono font-semibold tracking-tight">'.e($phone).'</span>')
+                        ->implode(' | ');
+                @endphp
+                <div class="font-tiro text-amber-200 font-bold text-sm sm:text-3xl leading-snug px-1">
+                    {{ $helplineItem->name }} - {!! $helplineNumbers !!}
+                </div>
+            @endif
 
             <div class="pt-2 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 text-xs sm:text-sm font-semibold text-amber-200 bg-black/20 py-2.5 px-4 rounded-xl max-w-3xl mx-auto border border-amber-400/30">
                 <span class="flex items-center gap-1">
@@ -44,12 +61,12 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                     <div>
                         <label class="block font-bold text-maroon-950 text-sm mb-1">शिविरार्थी का नाम <span class="text-rose-600 font-bold">*</span></label>
-                        <input type="text" name="full_name" x-model="formData.full_name" placeholder="शिविरार्थी का नाम" required class="w-full px-4 py-2.5 rounded-lg border border-amber-200 focus:ring-2 focus:ring-amber-500 text-slate-800 text-base font-medium bg-white/90 shadow-sm">
+                        <input type="text" name="full_name" x-model="formData.full_name" required class="w-full px-4 py-2.5 rounded-lg border border-amber-200 focus:ring-2 focus:ring-amber-500 text-slate-800 text-base font-medium bg-white/90 shadow-sm">
                     </div>
 
                     <div>
                         <label class="block font-bold text-maroon-950 text-sm mb-1">उपनाम <span class="text-rose-600 font-bold">*</span></label>
-                        <input type="text" name="surname" x-model="formData.surname" placeholder="उपनाम" required class="w-full px-4 py-2.5 rounded-lg border border-amber-200 focus:ring-2 focus:ring-amber-500 text-slate-800 text-base font-medium bg-white/90 shadow-sm">
+                        <input type="text" name="surname" x-model="formData.surname" required class="w-full px-4 py-2.5 rounded-lg border border-amber-200 focus:ring-2 focus:ring-amber-500 text-slate-800 text-base font-medium bg-white/90 shadow-sm">
                     </div>
                 </div>
 
@@ -57,12 +74,12 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                     <div>
                         <label class="block font-bold text-maroon-950 text-sm mb-1">पिता का नाम <span class="text-rose-600 font-bold">*</span></label>
-                        <input type="text" name="father_name" x-model="formData.father_name" placeholder="पिता का नाम" required class="w-full px-4 py-2.5 rounded-lg border border-amber-200 focus:ring-2 focus:ring-amber-500 text-slate-800 text-base font-medium bg-white/90 shadow-sm">
+                        <input type="text" name="father_name" x-model="formData.father_name" required class="w-full px-4 py-2.5 rounded-lg border border-amber-200 focus:ring-2 focus:ring-amber-500 text-slate-800 text-base font-medium bg-white/90 shadow-sm">
                     </div>
 
                     <div>
                         <label class="block font-bold text-maroon-950 text-sm mb-1">माता का नाम <span class="text-rose-600 font-bold">*</span></label>
-                        <input type="text" name="mother_name" x-model="formData.mother_name" placeholder="माता का नाम" required class="w-full px-4 py-2.5 rounded-lg border border-amber-200 focus:ring-2 focus:ring-amber-500 text-slate-800 text-base font-medium bg-white/90 shadow-sm">
+                        <input type="text" name="mother_name" x-model="formData.mother_name" required class="w-full px-4 py-2.5 rounded-lg border border-amber-200 focus:ring-2 focus:ring-amber-500 text-slate-800 text-base font-medium bg-white/90 shadow-sm">
                     </div>
                 </div>
 
@@ -83,7 +100,7 @@
 
                     <div>
                         <label class="block font-bold text-maroon-950 text-sm mb-1">आयु <span class="text-rose-600 font-bold">*</span></label>
-                        <input type="text" name="age" :value="calculatedAge !== null ? calculatedAge + ' वर्ष' : ''" placeholder="वर्तमान आयु" readonly class="w-full px-4 py-2.5 rounded-lg border border-amber-200 focus:ring-2 focus:ring-amber-500 text-slate-800 text-base font-medium bg-white/70 shadow-sm">
+                        <input type="text" name="age" :value="calculatedAge !== null ? calculatedAge + ' वर्ष' : ''" readonly class="w-full px-4 py-2.5 rounded-lg border border-amber-200 focus:ring-2 focus:ring-amber-500 text-slate-800 text-base font-medium bg-white/70 shadow-sm">
                     </div>
                 </div>
 
@@ -91,17 +108,17 @@
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
                     <div>
                         <label class="block font-bold text-maroon-950 text-sm mb-1">ईमेल</label>
-                        <input type="email" name="email" x-model="formData.email" placeholder="ईमेल" class="w-full px-4 py-2.5 rounded-lg border border-amber-200 focus:ring-2 focus:ring-amber-500 text-slate-800 text-base font-medium bg-white/90 shadow-sm">
+                        <input type="email" name="email" x-model="formData.email" class="w-full px-4 py-2.5 rounded-lg border border-amber-200 focus:ring-2 focus:ring-amber-500 text-slate-800 text-base font-medium bg-white/90 shadow-sm">
                     </div>
 
                     <div>
                         <label class="block font-bold text-maroon-950 text-sm mb-1">मोबाईल नंबर <span class="text-rose-600 font-bold">*</span></label>
-                        <input type="tel" name="mobile" x-model="formData.mobile" maxlength="10" placeholder="मोबाईल नंबर" required class="w-full px-4 py-2.5 rounded-lg border border-amber-200 focus:ring-2 focus:ring-amber-500 text-slate-800 text-base font-medium bg-white/90 shadow-sm">
+                        <input type="tel" name="mobile" x-model="formData.mobile" maxlength="10" required class="w-full px-4 py-2.5 rounded-lg border border-amber-200 focus:ring-2 focus:ring-amber-500 text-slate-800 text-base font-medium bg-white/90 shadow-sm">
                     </div>
 
                     <div>
                         <label class="block font-bold text-maroon-950 text-sm mb-1">व्हाट्सएप नंबर <span class="text-rose-600 font-bold">*</span></label>
-                        <input type="tel" name="whatsapp" x-model="formData.whatsapp" maxlength="10" placeholder="व्हाट्सएप नंबर" required class="w-full px-4 py-2.5 rounded-lg border border-amber-200 focus:ring-2 focus:ring-amber-500 text-slate-800 text-base font-medium bg-white/90 shadow-sm">
+                        <input type="tel" name="whatsapp" x-model="formData.whatsapp" maxlength="10" required class="w-full px-4 py-2.5 rounded-lg border border-amber-200 focus:ring-2 focus:ring-amber-500 text-slate-800 text-base font-medium bg-white/90 shadow-sm">
                     </div>
                 </div>
 
@@ -109,17 +126,17 @@
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
                     <div>
                         <label class="block font-bold text-maroon-950 text-sm mb-1">आपातकाल स्थिति में पारिवारिक सदस्य का नाम <span class="text-rose-600 font-bold">*</span></label>
-                        <input type="text" name="emergency_contact_name" x-model="formData.emergency_contact_name" placeholder="आपातकाल स्थिति में पारिवारिक सदस्य का नाम" required class="w-full px-4 py-2.5 rounded-lg border border-amber-200 focus:ring-2 focus:ring-amber-500 text-slate-800 text-base font-medium bg-white/90 shadow-sm">
+                        <input type="text" name="emergency_contact_name" x-model="formData.emergency_contact_name" required class="w-full px-4 py-2.5 rounded-lg border border-amber-200 focus:ring-2 focus:ring-amber-500 text-slate-800 text-base font-medium bg-white/90 shadow-sm">
                     </div>
 
                     <div>
                         <label class="block font-bold text-maroon-950 text-sm mb-1">आपातकाल स्थिति में पारिवारिक सदस्य का नंबर <span class="text-rose-600 font-bold">*</span></label>
-                        <input type="tel" name="emergency_contact_number" x-model="formData.emergency_contact_number" maxlength="10" placeholder="आपातकाल स्थिति में पारिवारिक सदस्य का नंबर" required class="w-full px-4 py-2.5 rounded-lg border border-amber-200 focus:ring-2 focus:ring-amber-500 text-slate-800 text-base font-medium bg-white/90 shadow-sm">
+                        <input type="tel" name="emergency_contact_number" x-model="formData.emergency_contact_number" maxlength="10" required class="w-full px-4 py-2.5 rounded-lg border border-amber-200 focus:ring-2 focus:ring-amber-500 text-slate-800 text-base font-medium bg-white/90 shadow-sm">
                     </div>
 
                     <div>
                         <label class="block font-bold text-maroon-950 text-sm mb-1">सदस्य से रिश्ता <span class="text-rose-600 font-bold">*</span></label>
-                        <input type="text" name="emergency_relation" x-model="formData.emergency_relation" placeholder="सदस्य से रिश्ता" required class="w-full px-4 py-2.5 rounded-lg border border-amber-200 focus:ring-2 focus:ring-amber-500 text-slate-800 text-base font-medium bg-white/90 shadow-sm">
+                        <input type="text" name="emergency_relation" x-model="formData.emergency_relation" required class="w-full px-4 py-2.5 rounded-lg border border-amber-200 focus:ring-2 focus:ring-amber-500 text-slate-800 text-base font-medium bg-white/90 shadow-sm">
                     </div>
                 </div>
 
@@ -127,12 +144,12 @@
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
                     <div class="sm:col-span-2">
                         <label class="block font-bold text-maroon-950 text-sm mb-1">आपका पता <span class="text-rose-600 font-bold">*</span></label>
-                        <input type="text" name="address" x-model="formData.address" placeholder="पता" required class="w-full px-4 py-2.5 rounded-lg border border-amber-200 focus:ring-2 focus:ring-amber-500 text-slate-800 text-base font-medium bg-white/90 shadow-sm">
+                        <input type="text" name="address" x-model="formData.address" required class="w-full px-4 py-2.5 rounded-lg border border-amber-200 focus:ring-2 focus:ring-amber-500 text-slate-800 text-base font-medium bg-white/90 shadow-sm">
                     </div>
 
                     <div>
                         <label class="block font-bold text-maroon-950 text-sm mb-1">शहर <span class="text-rose-600 font-bold">*</span></label>
-                        <input type="text" name="city" x-model="formData.city" placeholder="शहर" required class="w-full px-4 py-2.5 rounded-lg border border-amber-200 focus:ring-2 focus:ring-amber-500 text-slate-800 text-base font-medium bg-white/90 shadow-sm">
+                        <input type="text" name="city" x-model="formData.city" required class="w-full px-4 py-2.5 rounded-lg border border-amber-200 focus:ring-2 focus:ring-amber-500 text-slate-800 text-base font-medium bg-white/90 shadow-sm">
                     </div>
                 </div>
 
@@ -140,17 +157,47 @@
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
                     <div>
                         <label class="block font-bold text-maroon-950 text-sm mb-1">जिला <span class="text-rose-600 font-bold">*</span></label>
-                        <input type="text" name="district" x-model="formData.district" placeholder="जिला" required class="w-full px-4 py-2.5 rounded-lg border border-amber-200 focus:ring-2 focus:ring-amber-500 text-slate-800 text-base font-medium bg-white/90 shadow-sm">
+                        <input type="text" name="district" x-model="formData.district" required class="w-full px-4 py-2.5 rounded-lg border border-amber-200 focus:ring-2 focus:ring-amber-500 text-slate-800 text-base font-medium bg-white/90 shadow-sm">
                     </div>
 
-                    <div>
+                    <div class="relative" @click.away="stateOpen = false">
                         <label class="block font-bold text-maroon-950 text-sm mb-1">राज्य <span class="text-rose-600 font-bold">*</span></label>
-                        <input type="text" name="state" x-model="formData.state" placeholder="राज्य" required class="w-full px-4 py-2.5 rounded-lg border border-amber-200 focus:ring-2 focus:ring-amber-500 text-slate-800 text-base font-medium bg-white/90 shadow-sm">
+                        <input type="hidden" name="state" :value="formData.state">
+                        <input type="text"
+                               x-model="stateSearch"
+                               @focus="stateOpen = true; stateSearch = ''"
+                               @keydown.escape="stateOpen = false"
+                               autocomplete="off"
+                               class="w-full px-4 py-2.5 rounded-lg border border-amber-200 focus:ring-2 focus:ring-amber-500 text-slate-800 text-base font-medium bg-white/90 shadow-sm"
+                               :placeholder="formData.state || 'राज्य / केंद्र शासित खोजें'">
+                        <div x-show="stateOpen" x-cloak class="absolute left-0 right-0 mt-1 z-40 bg-white border border-amber-300 rounded-xl shadow-xl max-h-64 overflow-y-auto">
+                            <template x-if="filteredStates.length === 0">
+                                <div class="px-4 py-3 text-sm text-slate-500">कोई राज्य नहीं मिला</div>
+                            </template>
+                            <template x-if="filteredStates.some(s => s.type === 'state')">
+                                <div class="px-3 py-1.5 text-[11px] font-extrabold uppercase tracking-wider text-amber-800 bg-amber-50 border-b border-amber-100">राज्य (States)</div>
+                            </template>
+                            <template x-for="state in filteredStates.filter(s => s.type === 'state')" :key="state.value">
+                                <button type="button" @click="selectState(state)" class="w-full text-left px-4 py-2 text-sm font-medium hover:bg-amber-100"
+                                        :class="formData.state === state.value ? 'bg-amber-50 text-maroon-900' : 'text-slate-800'">
+                                    <span x-text="state.hi"></span> (<span x-text="state.en"></span>)
+                                </button>
+                            </template>
+                            <template x-if="filteredStates.some(s => s.type === 'ut')">
+                                <div class="px-3 py-1.5 text-[11px] font-extrabold uppercase tracking-wider text-amber-800 bg-amber-50 border-y border-amber-100">केंद्र शासित प्रदेश (Union Territories)</div>
+                            </template>
+                            <template x-for="state in filteredStates.filter(s => s.type === 'ut')" :key="state.value">
+                                <button type="button" @click="selectState(state)" class="w-full text-left px-4 py-2 text-sm font-medium hover:bg-amber-100"
+                                        :class="formData.state === state.value ? 'bg-amber-50 text-maroon-900' : 'text-slate-800'">
+                                    <span x-text="state.hi"></span> (<span x-text="state.en"></span>)
+                                </button>
+                            </template>
+                        </div>
                     </div>
 
                     <div>
                         <label class="block font-bold text-maroon-950 text-sm mb-1">पिन कोड <span class="text-rose-600 font-bold">*</span></label>
-                        <input type="text" name="pincode" x-model="formData.pincode" maxlength="6" placeholder="पिन कोड" required class="w-full px-4 py-2.5 rounded-lg border border-amber-200 focus:ring-2 focus:ring-amber-500 text-slate-800 text-base font-medium bg-white/90 shadow-sm">
+                        <input type="text" name="pincode" x-model="formData.pincode" maxlength="6" required class="w-full px-4 py-2.5 rounded-lg border border-amber-200 focus:ring-2 focus:ring-amber-500 text-slate-800 text-base font-medium bg-white/90 shadow-sm">
                     </div>
                 </div>
 
@@ -158,17 +205,17 @@
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
                     <div>
                         <label class="block font-bold text-maroon-950 text-sm mb-1">शिक्षा विवरण <span class="text-rose-600 font-bold">*</span></label>
-                        <input type="text" name="education" x-model="formData.education" placeholder="शिक्षा विवरण" required class="w-full px-4 py-2.5 rounded-lg border border-amber-200 focus:ring-2 focus:ring-amber-500 text-slate-800 text-base font-medium bg-white/90 shadow-sm">
+                        <input type="text" name="education" x-model="formData.education" required class="w-full px-4 py-2.5 rounded-lg border border-amber-200 focus:ring-2 focus:ring-amber-500 text-slate-800 text-base font-medium bg-white/90 shadow-sm">
                     </div>
 
                     <div>
                         <label class="block font-bold text-maroon-950 text-sm mb-1">परिवार के सदस्यों की कुल संख्या <span class="text-rose-600 font-bold">*</span></label>
-                        <input type="text" name="family_members_count" x-model="formData.family_members_count" placeholder="परिवार के सदस्यों की कुल संख्या" required class="w-full px-4 py-2.5 rounded-lg border border-amber-200 focus:ring-2 focus:ring-amber-500 text-slate-800 text-base font-medium bg-white/90 shadow-sm">
+                        <input type="text" name="family_members_count" x-model="formData.family_members_count" required class="w-full px-4 py-2.5 rounded-lg border border-amber-200 focus:ring-2 focus:ring-amber-500 text-slate-800 text-base font-medium bg-white/90 shadow-sm">
                     </div>
 
                     <div>
                         <label class="block font-bold text-maroon-950 text-sm mb-1">पारिवारिक व्यवसाय</label>
-                        <input type="text" name="family_occupation" x-model="formData.family_occupation" placeholder="पारिवारिक व्यवसाय" class="w-full px-4 py-2.5 rounded-lg border border-amber-200 focus:ring-2 focus:ring-amber-500 text-slate-800 text-base font-medium bg-white/90 shadow-sm">
+                        <input type="text" name="family_occupation" x-model="formData.family_occupation" class="w-full px-4 py-2.5 rounded-lg border border-amber-200 focus:ring-2 focus:ring-amber-500 text-slate-800 text-base font-medium bg-white/90 shadow-sm">
                     </div>
                 </div>
 
@@ -176,12 +223,12 @@
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
                     <div class="sm:col-span-2">
                         <label class="block font-bold text-maroon-950 text-sm mb-1">किसी सामाजिक संस्था/कमेटी/ट्रस्ट से जुड़े हैं तो उसका नाम</label>
-                        <input type="text" name="social_org" x-model="formData.social_org" placeholder="किसी सामाजिक संस्था/कमेटी/ट्रस्ट से जुड़े हैं तो उसका नाम" class="w-full px-4 py-2.5 rounded-lg border border-amber-200 focus:ring-2 focus:ring-amber-500 text-slate-800 text-base font-medium bg-white/90 shadow-sm">
+                        <input type="text" name="social_org" x-model="formData.social_org" class="w-full px-4 py-2.5 rounded-lg border border-amber-200 focus:ring-2 focus:ring-amber-500 text-slate-800 text-base font-medium bg-white/90 shadow-sm">
                     </div>
 
                     <div>
                         <label class="block font-bold text-maroon-950 text-sm mb-1">संस्था में विशेष पद</label>
-                        <input type="text" name="social_position" x-model="formData.social_position" placeholder="संस्था में विशेष पद" class="w-full px-4 py-2.5 rounded-lg border border-amber-200 focus:ring-2 focus:ring-amber-500 text-slate-800 text-base font-medium bg-white/90 shadow-sm">
+                        <input type="text" name="social_position" x-model="formData.social_position" class="w-full px-4 py-2.5 rounded-lg border border-amber-200 focus:ring-2 focus:ring-amber-500 text-slate-800 text-base font-medium bg-white/90 shadow-sm">
                     </div>
                 </div>
 
@@ -203,7 +250,7 @@
 
                     <div x-show="hasPrevious == '1'" x-transition class="transition-all duration-300">
                         <label class="block font-bold text-maroon-950 text-sm mb-1">अगर हाँ तो कितनी बार</label>
-                        <input type="number" name="previous_shivir_count" value="{{ old('previous_shivir_count', 1) }}" min="1" max="30" placeholder="संख्या दर्ज करें" class="w-full px-4 py-2.5 rounded-lg border border-amber-200 focus:ring-2 focus:ring-amber-500 text-slate-800 text-base font-medium bg-white/90 shadow-sm">
+                        <input type="number" name="previous_shivir_count" value="{{ old('previous_shivir_count', 1) }}" min="1" max="30" class="w-full px-4 py-2.5 rounded-lg border border-amber-200 focus:ring-2 focus:ring-amber-500 text-slate-800 text-base font-medium bg-white/90 shadow-sm">
                     </div>
                 </div>
 
@@ -211,7 +258,7 @@
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
                     <div>
                         <label class="block font-bold text-maroon-950 text-sm mb-1">आधार नंबर <span class="text-rose-600 font-bold">*</span></label>
-                        <input type="text" name="aadhaar_number" x-model="formData.aadhaar_number" maxlength="12" placeholder="आधार नंबर" required class="w-full px-4 py-2.5 rounded-lg border border-amber-200 focus:ring-2 focus:ring-amber-500 text-slate-800 text-base font-medium bg-white/90 shadow-sm">
+                        <input type="text" name="aadhaar_number" x-model="formData.aadhaar_number" maxlength="12" required class="w-full px-4 py-2.5 rounded-lg border border-amber-200 focus:ring-2 focus:ring-amber-500 text-slate-800 text-base font-medium bg-white/90 shadow-sm">
                     </div>
 
                     <div>
@@ -241,7 +288,7 @@
                                     <span class="bg-amber-500 text-maroon-950 font-extrabold text-xs px-2.5 py-0.5 rounded-md min-w-[26px] text-center mt-0.5 shadow-sm">
                                         {{ $index + 1 }}
                                     </span>
-                                    <p class="text-xs sm:text-sm font-medium text-amber-100/95 leading-relaxed pt-0.5">
+                                    <p class="{{ $index === 0 ? 'text-sm sm:text-base' : 'text-xs sm:text-sm' }} font-medium text-amber-100/95 leading-relaxed pt-0.5">
                                         {{ $rule->rule_text }}
                                     </p>
                                 </div>
@@ -277,6 +324,46 @@
             calculatedAge: null,
             hasPrevious: '{{ old('previous_shivir_attended', 0) }}',
             formError: '',
+            stateOpen: false,
+            stateSearch: '{{ old('state', 'मध्य प्रदेश (Madhya Pradesh)') }}',
+            states: [
+                { hi: 'आंध्र प्रदेश', en: 'Andhra Pradesh', type: 'state' },
+                { hi: 'अरुणाचल प्रदेश', en: 'Arunachal Pradesh', type: 'state' },
+                { hi: 'असम', en: 'Assam', type: 'state' },
+                { hi: 'बिहार', en: 'Bihar', type: 'state' },
+                { hi: 'छत्तीसगढ़', en: 'Chhattisgarh', type: 'state' },
+                { hi: 'गोवा', en: 'Goa', type: 'state' },
+                { hi: 'गुजरात', en: 'Gujarat', type: 'state' },
+                { hi: 'हरियाणा', en: 'Haryana', type: 'state' },
+                { hi: 'हिमाचल प्रदेश', en: 'Himachal Pradesh', type: 'state' },
+                { hi: 'झारखंड', en: 'Jharkhand', type: 'state' },
+                { hi: 'कर्नाटक', en: 'Karnataka', type: 'state' },
+                { hi: 'केरल', en: 'Kerala', type: 'state' },
+                { hi: 'मध्य प्रदेश', en: 'Madhya Pradesh', type: 'state' },
+                { hi: 'महाराष्ट्र', en: 'Maharashtra', type: 'state' },
+                { hi: 'मणिपुर', en: 'Manipur', type: 'state' },
+                { hi: 'मेघालय', en: 'Meghalaya', type: 'state' },
+                { hi: 'मिजोरम', en: 'Mizoram', type: 'state' },
+                { hi: 'नागालैंड', en: 'Nagaland', type: 'state' },
+                { hi: 'ओडिशा', en: 'Odisha', type: 'state' },
+                { hi: 'पंजाब', en: 'Punjab', type: 'state' },
+                { hi: 'राजस्थान', en: 'Rajasthan', type: 'state' },
+                { hi: 'सिक्किम', en: 'Sikkim', type: 'state' },
+                { hi: 'तमिलनाडु', en: 'Tamil Nadu', type: 'state' },
+                { hi: 'तेलंगाना', en: 'Telangana', type: 'state', aliases: ['telangna', 'telengana'] },
+                { hi: 'त्रिपुरा', en: 'Tripura', type: 'state' },
+                { hi: 'उत्तर प्रदेश', en: 'Uttar Pradesh', type: 'state' },
+                { hi: 'उत्तराखंड', en: 'Uttarakhand', type: 'state' },
+                { hi: 'पश्चिम बंगाल', en: 'West Bengal', type: 'state' },
+                { hi: 'अंडमान और निकोबार द्वीप समूह', en: 'Andaman and Nicobar Islands', type: 'ut' },
+                { hi: 'चंडीगढ़', en: 'Chandigarh', type: 'ut' },
+                { hi: 'दादरा और नगर हवेली और दमन और दीव', en: 'Dadra and Nagar Haveli and Daman and Diu', type: 'ut' },
+                { hi: 'दिल्ली', en: 'Delhi', type: 'ut' },
+                { hi: 'जम्मू और कश्मीर', en: 'Jammu and Kashmir', type: 'ut' },
+                { hi: 'लद्दाख', en: 'Ladakh', type: 'ut' },
+                { hi: 'लक्षद्वीप', en: 'Lakshadweep', type: 'ut' },
+                { hi: 'पुदुचेरी', en: 'Puducherry', type: 'ut' }
+            ].map(s => ({ ...s, value: `${s.hi} (${s.en})` })),
             formData: {
                 full_name: '{{ old('full_name') }}',
                 surname: '{{ old('surname') }}',
@@ -293,7 +380,7 @@
                 address: '{{ old('address') }}',
                 city: '{{ old('city') }}',
                 district: '{{ old('district') }}',
-                state: '{{ old('state', 'मध्य प्रदेश') }}',
+                state: '{{ old('state', 'मध्य प्रदेश (Madhya Pradesh)') }}',
                 pincode: '{{ old('pincode') }}',
                 education: '{{ old('education') }}',
                 family_members_count: '{{ old('family_members_count') }}',
@@ -302,6 +389,21 @@
                 social_position: '{{ old('social_position') }}',
                 aadhaar_number: '{{ old('aadhaar_number') }}',
                 rules_accepted: false
+            },
+            get filteredStates() {
+                const q = (this.stateSearch || '').toLowerCase().trim();
+                if (!q || q === (this.formData.state || '').toLowerCase()) {
+                    return this.states;
+                }
+                return this.states.filter((s) => {
+                    const aliases = (s.aliases || []).join(' ');
+                    return `${s.hi} ${s.en} ${s.value} ${aliases}`.toLowerCase().includes(q);
+                });
+            },
+            selectState(state) {
+                this.formData.state = state.value;
+                this.stateSearch = state.value;
+                this.stateOpen = false;
             },
             calculateAge() {
                 if (!this.formData.dob) return;
