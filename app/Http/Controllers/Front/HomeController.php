@@ -19,7 +19,11 @@ class HomeController extends Controller
                 ->first();
 
             if (!$shivir) {
-                $shivir = Shivir::latest('id')->firstOrFail();
+                $shivir = Shivir::latest('id')->first();
+            }
+
+            if (!$shivir) {
+                return view('public.no_shivir');
             }
         }
 
