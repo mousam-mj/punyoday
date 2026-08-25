@@ -1,15 +1,18 @@
-DirectoryIndex index.php index.html
+DirectoryIndex index.php
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
+    RewriteBase /shivir2026/
 
     # Block sensitive files
     RewriteRule ^\.env - [F,L]
     RewriteRule ^composer\.(json|lock)$ - [F,L]
     RewriteRule ^\.git - [F,L]
 
+    # Keep /shivir2026/ as the public URL (hide /public/)
+    RewriteCond %{THE_REQUEST} \s/shivir2026/public([/?\s]) [NC]
+    RewriteRule ^public(?:/(.*))?$ /shivir2026/$1 [R=301,L]
+
     # Send all requests into Laravel's public folder
     RewriteRule ^(.*)$ public/$1 [L]
 </IfModule>
-
-DirectoryIndex public/index.php

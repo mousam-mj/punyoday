@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +20,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $appUrl = rtrim((string) config('app.url'), '/');
+        if ($appUrl === '') {
+            return;
+        }
+
+        URL::forceRootUrl($appUrl);
+
+        $scheme = parse_url($appUrl, PHP_URL_SCHEME);
+        if (is_string($scheme) && $scheme !== '') {
+            URL::forceScheme($scheme);
+        }
     }
 }
