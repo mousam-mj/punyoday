@@ -3,8 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $title ?? 'श्रावक संस्कार शिविर | पुण्योदय भारत' }}</title>
-    
+    @php
+        $pageTitle = $title ?? 'श्रावक संस्कार शिविर | पुण्योदय विद्यापथ';
+        $pageDescription = $description ?? '33वाँ श्रावक संस्कार शिविर – इंदौर 2026 | पुण्योदय विद्यापथ';
+        $pageImage = asset('images/logo.png');
+        $pageUrl = url()->current();
+    @endphp
+    <title>{{ $pageTitle }}</title>
+    <meta name="description" content="{{ $pageDescription }}">
+    <link rel="icon" type="image/png" href="{{ $pageImage }}">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="पुण्योदय विद्यापथ">
+    <meta property="og:locale" content="hi_IN">
+    <meta property="og:title" content="{{ $pageTitle }}">
+    <meta property="og:description" content="{{ $pageDescription }}">
+    <meta property="og:url" content="{{ $pageUrl }}">
+    <meta property="og:image" content="{{ $pageImage }}">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1024">
+    <meta property="og:image:height" content="662">
+    <meta property="og:image:alt" content="पुण्योदय विद्यापथ">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $pageTitle }}">
+    <meta name="twitter:description" content="{{ $pageDescription }}">
+    <meta name="twitter:image" content="{{ $pageImage }}">
+
     <!-- Google Fonts Hindi Devanagari -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
